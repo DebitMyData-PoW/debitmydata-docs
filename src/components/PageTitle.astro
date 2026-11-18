@@ -1,0 +1,39 @@
+---
+// Starlight's page title. Pages about the DMD coin and its platforms (wallets, node, mining,
+// explorers, stats, analytics, its price) set `coin: true` and show the DMD coin beside their
+// title; every other page belongs to DebitMyData as a whole and shows only its title.
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import coin from '../assets/dmd-coin.png';
+
+const isCoinPage = Boolean(Astro.locals.starlightRoute.entry.data.coin);
+---
+
+{
+  isCoinPage ? (
+    <div class="coin-title">
+      <img src={coin.src} width="64" height="64" alt="DMD coin" />
+      <Default />
+    </div>
+  ) : (
+    <Default />
+  )
+}
+
+<style>
+  .coin-title {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  img {
+    width: 3.25rem;
+    height: 3.25rem;
+    flex: none;
+  }
+  @media (max-width: 50em) {
+    img {
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+// Starlight's footer (previous / next page), then DebitMyData's line.
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const year = new Date().getUTCFullYear();
+---
+
+<Default />
+<p class="dmd-legal">
+  © {year} Debit My Data, Inc. · DMD is the native coin of the DebitMyData Proof-of-Work chain. ·
+  <a href="mailto:info@debitmydata.com">info@debitmydata.com</a> ·
+  <a href="https://api.debitmydata.io/policies">Policies</a>
+</p>
+
+<style>
+  .dmd-legal {
+    margin: 2.5rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-hairline-light);
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+    line-height: 1.6;
+  }
+  .dmd-legal a {
+    color: var(--sl-color-gray-3);
+  }
+  .dmd-legal a:hover {
+    color: var(--dmd-red-text);
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "name": "debitmydata-docs",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DebitMyData documentation: the DMD coin, wallets, mining, explorers, DID-LLM and the Agent Gateway, stats and analytics.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "astro preview",
+    "check-links": "node scripts/check-links.mjs"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.8",
+    "astro": "7.4.4",
+    "sharp": "0.35.5"
+  }
+}

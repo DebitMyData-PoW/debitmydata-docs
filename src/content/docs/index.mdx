@@ -1,0 +1,72 @@
+---
+title: DebitMyData Docs
+description: Everything about DebitMyData in one place. The DMD coin and its Proof-of-Work chain, wallets and mining, the DID-LLM for AI agents, the explorers, stats, analytics and every public API.
+template: splash
+hero:
+  title: DebitMyData <span class="dmd-red">Docs</span>
+  tagline: Everything about DebitMyData in one place. The DMD coin and its Proof-of-Work chain, wallets and mining, the DID-LLM for AI agents, and every public API.
+  image:
+    file: ../../assets/debitmydata-icon-512.png
+    alt: The DebitMyData logo
+  actions:
+    - text: What is DebitMyData?
+      link: /start/what-is-debitmydata/
+      icon: right-arrow
+    - text: Get a DID-LLM
+      link: https://id.debitmydata.io/
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Start with what you need
+
+<CardGrid>
+  <LinkCard
+    title="The DMD coin"
+    description="SHA-256 Proof-of-Work, 150-second blocks, 35 DMD per block. Specs, units and supply."
+    href="/coin/overview/"
+  />
+  <LinkCard
+    title="Wallets"
+    description="DebitMyData Core for Windows, Linux and macOS, the web wallet and the Android app."
+    href="/coin/wallets/"
+  />
+  <LinkCard
+    title="Mine DMD"
+    description="Connect any SHA-256 miner to the official pool, or rent hashrate."
+    href="/coin/mining/"
+  />
+  <LinkCard
+    title="Run a node"
+    description="Install DebitMyData Core, its settings file and the commands you'll use most."
+    href="/coin/node/"
+  />
+  <LinkCard
+    title="DID-LLM"
+    description="A verifiable identity for AI agents, bots, people and organizations: $25.00, paid once."
+    href="/did-llm/overview/"
+  />
+  <LinkCard
+    title="Connect an agent"
+    description="The MCP server, A2A, sign-in with a DID-LLM, the REST API and the staging server."
+    href="/developers/connect-an-agent/"
+  />
+  <LinkCard
+    title="Explorers"
+    description="The mempool explorer, the lite explorer and the rich list, with their APIs."
+    href="/data/explorers/"
+  />
+  <LinkCard
+    title="Stats and analytics"
+    description="Hashrate, difficulty, mining cost and thousands of on-chain charts, each with a free API."
+    href="/data/stats/"
+  />
+</CardGrid>
+
+## All links in one page
+
+Every website, explorer, API and community channel is listed on [All links](/start/all-links/).
+AI agents can read this whole site as plain text: [`/llms.txt`](/llms.txt) and
+[`/llms-full.txt`](/llms-full.txt).

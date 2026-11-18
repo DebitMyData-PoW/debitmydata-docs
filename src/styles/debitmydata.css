@@ -1,0 +1,181 @@
+/* DebitMyData's design on Starlight: the Mada font, debitmydata.com's reds, white pages in the
+   light theme and #18181d in the dark one, as on stats.debitmydata.io and id.debitmydata.io. */
+
+@font-face {
+  font-family: Mada;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/mada-latin-400-normal.woff2) format('woff2');
+}
+@font-face {
+  font-family: Mada;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/mada-latin-600-normal.woff2) format('woff2');
+}
+@font-face {
+  font-family: Mada;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/mada-latin-700-normal.woff2) format('woff2');
+}
+@font-face {
+  font-family: Mada;
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(/fonts/mada-latin-800-normal.woff2) format('woff2');
+}
+
+/* Dark theme */
+:root {
+  --sl-font: Mada, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --sl-color-accent-low: #3a1419;
+  --sl-color-accent: #e12330;
+  --sl-color-accent-high: #ff5a64;
+
+  --sl-color-white: #f4f4f7;
+  --sl-color-gray-1: #ececf1;
+  --sl-color-gray-2: #c6c7d0;
+  --sl-color-gray-3: #9a9ba6;
+  --sl-color-gray-4: #6b6c77;
+  --sl-color-gray-5: #34343e;
+  --sl-color-gray-6: #202027;
+  --sl-color-black: #18181d;
+
+  --sl-color-bg-nav: #1d1d23;
+  --sl-color-bg-sidebar: #18181d;
+  --sl-color-hairline-light: #303039;
+  --sl-color-hairline: #26262e;
+
+  --dmd-red: #c80815;
+  --dmd-red-text: #ff5a64;
+  --dmd-pink-line: #5c1f27;
+  --dmd-card: #202027;
+  --dmd-bar-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Light theme */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #fff0f1;
+  --sl-color-accent: #c80815;
+  --sl-color-accent-high: #640000;
+
+  --sl-color-white: #211f1f;
+  --sl-color-gray-1: #2b2929;
+  --sl-color-gray-2: #3d3b3b;
+  --sl-color-gray-3: #5d6673;
+  --sl-color-gray-4: #7d8797;
+  --sl-color-gray-5: #cfd1d8;
+  --sl-color-gray-6: #ececf0;
+  --sl-color-gray-7: #f7f7f9;
+  --sl-color-black: #ffffff;
+
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #ffffff;
+  --sl-color-hairline-light: #ececf0;
+  --sl-color-hairline: #f0f0f3;
+  --sl-color-hairline-shade: #ececf0;
+
+  --dmd-red: #c80815;
+  --dmd-red-text: #c80815;
+  --dmd-pink-line: #f5c9cc;
+  --dmd-card: #fbfbfc;
+  --dmd-bar-shadow: 0 4px 18px rgba(17, 17, 26, 0.06);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* The top bar, white with a soft shadow as on debitmydata.com */
+header.header {
+  box-shadow: var(--dmd-bar-shadow);
+}
+
+/* Headings in Mada's heavier weights */
+.sl-markdown-content :is(h1, h2, h3),
+h1#_top {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.sl-markdown-content h4 {
+  font-weight: 700;
+}
+
+/* Links: the red of the other sites, underlined when hovered */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--dmd-red-text);
+  text-underline-offset: 0.18em;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  color: var(--sl-color-white);
+}
+
+/* The current page in the sidebar: the red pill of the other sites' menus */
+nav.sidebar a[aria-current='page'],
+nav.sidebar a[aria-current='page']:hover,
+nav.sidebar a[aria-current='page']:focus {
+  background: var(--dmd-red);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Tables: easier to read on phones and in both themes */
+.sl-markdown-content table {
+  font-size: var(--sl-text-sm);
+}
+.sl-markdown-content th {
+  background: var(--dmd-card);
+}
+/* Two-column lists written as tables with an empty header row: no empty grey bar on top */
+.sl-markdown-content thead:not(:has(th:not(:empty))) {
+  display: none;
+}
+.sl-markdown-content td code,
+.sl-markdown-content th code {
+  overflow-wrap: anywhere;
+}
+
+/* Long addresses and URLs never push the page sideways */
+.sl-markdown-content :is(p, li) code {
+  overflow-wrap: anywhere;
+}
+
+/* The home page's buttons */
+.sl-link-button.primary {
+  background: var(--dmd-red);
+  border-color: var(--dmd-red);
+  color: #fff;
+}
+.sl-link-button.primary:hover {
+  background: #e12330;
+  border-color: #e12330;
+  color: #fff;
+}
+
+/* Cards */
+.card {
+  border-radius: 0.75rem;
+}
+.sl-link-card {
+  border-radius: 0.75rem;
+}
+.sl-link-card:hover {
+  border-color: var(--dmd-pink-line);
+}
+
+/* The home page's logo and title */
+.hero img {
+  filter: drop-shadow(0 18px 30px rgba(17, 17, 26, 0.18));
+}
+.dmd-red {
+  color: var(--dmd-red-text);
+}

@@ -1,0 +1,86 @@
+---
+// The light / dark switch of the DebitMyData sites: a moon in the light theme, a sun in the dark one.
+---
+
+<dmd-theme-toggle>
+  <button type="button" class="theme-toggle" aria-label="Dark theme" aria-pressed="false" title="Dark theme">
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+    </svg>
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2"></circle>
+      <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path>
+    </svg>
+  </button>
+</dmd-theme-toggle>
+
+<script>
+  const key = 'starlight-theme';
+
+  function current(): 'light' | 'dark' {
+    return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  }
+
+  function show() {
+    const dark = current() === 'dark';
+    document.querySelectorAll('dmd-theme-toggle button').forEach((button) => {
+      button.setAttribute('aria-pressed', String(dark));
+      button.setAttribute('title', dark ? 'Light theme' : 'Dark theme');
+    });
+  }
+
+  class ThemeToggle extends HTMLElement {
+    constructor() {
+      super();
+      this.querySelector('button')?.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem(key, next);
+        } catch {
+          // Private windows may refuse storage: the switch still works for this page.
+        }
+        show();
+      });
+      show();
+    }
+  }
+
+  if (!customElements.get('dmd-theme-toggle')) customElements.define('dmd-theme-toggle', ThemeToggle);
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid var(--sl-color-hairline-light);
+    background: var(--sl-color-bg);
+    color: var(--sl-color-white);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .theme-toggle:hover {
+    background: var(--sl-color-accent-low);
+    border-color: var(--dmd-pink-line);
+    color: var(--dmd-red-text);
+  }
+  .theme-toggle:focus-visible {
+    outline: 3px solid var(--dmd-red-text);
+    outline-offset: 2px;
+  }
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .sun,
+  :global([data-theme='dark']) .moon {
+    display: none;
+  }
+  :global([data-theme='dark']) .sun {
+    display: block;
+  }
+</style>
