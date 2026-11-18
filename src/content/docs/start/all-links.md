@@ -57,6 +57,7 @@ description: Every DebitMyData website, explorer, API, download and community ch
 | | |
 | --- | --- |
 | [DebitMyData Core releases](https://github.com/DebitMyData-PoW/DebitMyData-PoW-Core/releases) | Full node and desktop wallet for Windows, Linux and macOS |
+| [DebitMyData Electrum releases](https://github.com/DebitMyData-PoW/electrum/releases) | Light desktop wallet for Windows, Linux and macOS |
 | [DMD Secure Wallet](https://play.google.com/store/apps/details?id=com.debitmydatapow.wallet) | Android wallet on Google Play |
 | [mydmd.io](https://mydmd.io/) | Web wallet, in the browser |
 | [Whitepaper (PDF)](https://debitmydata.io/DebitMyData_Whitepaper_v2.0.pdf) | DebitMyData whitepaper, version 2.0 |

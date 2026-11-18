@@ -47,20 +47,33 @@ npm run check-links  # after a build: every link inside the site leads somewhere
 
 ## Putting it online
 
-Cloudflare builds and serves the site from this repository: each push to `main` goes live in a
-minute or two. The settings are in [`wrangler.jsonc`](wrangler.jsonc) (the site's files, no code)
-and [`public/_headers`](public/_headers) (security and cache headers).
+The site is plain files, served by **Cloudflare Pages** at `docs.debitmydata.io`. Nothing links
+this repository to Cloudflare: the site changes only when someone uploads a new version by hand.
+No server of ours runs it, so it stays up when the other servers are down.
 
-**Once, in Cloudflare** (the account that holds debitmydata.io):
+**Build it** (or use the `debitmydata-docs-site.zip` made for you):
 
-1. **Workers & Pages**, **Create application**, **Import a repository**.
-2. Connect GitHub if asked, and choose `DebitMyData-PoW/debitmydata-docs`.
-3. Build command: `npm run build`. Deploy command: `npx wrangler deploy` (the default). Save
-   and deploy.
-4. Open the new Worker, **Settings**, **Domains & Routes**, **Add**, **Custom domain**:
-   `docs.debitmydata.io`. Cloudflare adds the DNS record and the certificate itself.
+```sh
+npm ci
+npm run build
+cd dist && zip -r ../debitmydata-docs-site.zip . && cd ..
+```
 
-After that, there is nothing to do but push.
+**The first time, in Cloudflare** (the account that holds debitmydata.io):
+
+1. **Workers & Pages**, **Create application**, **Get started** next to "Drag and drop your
+   files".
+2. Project name: `debitmydata-docs`. **Create project**.
+3. Drag `debitmydata-docs-site.zip` (or the `dist` folder) into the upload frame, then
+   **Deploy site**. It answers at `debitmydata-docs.pages.dev`.
+4. The project, **Custom domains**, **Set up a custom domain**: `docs.debitmydata.io`,
+   **Activate domain**. Cloudflare adds the DNS record and the certificate itself.
+
+**Each new version:** the project, **Create a new deployment**, **Production**, drag the new zip,
+**Save and Deploy**. Earlier versions stay listed under **Deployments**: **Rollback to this
+deployment** puts one back.
+
+[`public/_headers`](public/_headers) gives every page its security and cache headers.
 
 ## License
 
