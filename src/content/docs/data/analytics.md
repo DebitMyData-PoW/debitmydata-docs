@@ -11,8 +11,10 @@ balances, coins' age, what holders paid, fees, mining and more.
 | | |
 | --- | --- |
 | **Studio** | Thousands of ready-made charts |
-| **Series** | Every series, browsed like files |
+| **Oracle** | The network on one screen: hashrate, the reference price and the difficulty, with a switch |
+| **Explorer** | Every block, transaction and address, and the fee to get into the next block |
 | **Calendar** | Each day's blocks and pools |
+| **Catalog** | Every series, browsed like files |
 | **API** | Every series, block, transaction and address as data |
 
 US dollar values use DebitMyData's [reference price](/data/reference-price/), worked out for

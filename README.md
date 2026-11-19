@@ -7,7 +7,7 @@ analytics sites, and every public API.
 
 It is a static site made with [Starlight](https://starlight.astro.build) (Astro): Markdown pages
 in, plain HTML pages out, with search, light and dark themes, and `/llms.txt` and
-`/llms-full.txt` for AI agents. Nothing runs on a server: Cloudflare serves the files.
+`/llms-full.txt` for AI agents. Nothing runs on the server but nginx, serving the files.
 
 ## Editing a page
 
@@ -47,9 +47,9 @@ npm run check-links  # after a build: every link inside the site leads somewhere
 
 ## Putting it online
 
-The site is plain files, served by **Cloudflare Pages** at `docs.debitmydata.io`. Nothing links
-this repository to Cloudflare: the site changes only when someone uploads a new version by hand.
-No server of ours runs it, so it stays up when the other servers are down.
+The site is plain files, served by **nginx** at `docs.debitmydata.io`, behind Cloudflare. Nothing
+links this repository to the server: the site changes only when someone uploads a new version by
+hand.
 
 **Build it** (or use the `debitmydata-docs-site.zip` made for you):
 
@@ -59,21 +59,12 @@ npm run build
 cd dist && zip -r ../debitmydata-docs-site.zip . && cd ..
 ```
 
-**The first time, in Cloudflare** (the account that holds debitmydata.io):
+**Each new version**, on the server: empty the site's folder (`rm -rf /var/www/docs/*`), then
+upload the zip's contents into it (with WinSCP, for example). Nothing needs restarting.
 
-1. **Workers & Pages**, **Create application**, **Get started** next to "Drag and drop your
-   files".
-2. Project name: `debitmydata-docs`. **Create project**.
-3. Drag `debitmydata-docs-site.zip` (or the `dist` folder) into the upload frame, then
-   **Deploy site**. It answers at `debitmydata-docs.pages.dev`.
-4. The project, **Custom domains**, **Set up a custom domain**: `docs.debitmydata.io`,
-   **Activate domain**. Cloudflare adds the DNS record and the certificate itself.
-
-**Each new version:** the project, **Create a new deployment**, **Production**, drag the new zip,
-**Save and Deploy**. Earlier versions stay listed under **Deployments**: **Rollback to this
-deployment** puts one back.
-
-[`public/_headers`](public/_headers) gives every page its security and cache headers.
+The nginx site serves `/var/www/docs` as it is: `try_files $uri $uri/ $uri.html =404`, the 404
+page for anything else, long caching for `/_astro/` and `/fonts/`, and `absolute_redirect off`.
+[`public/_headers`](public/_headers) lists the headers every page gets; nginx sets the same ones.
 
 ## License
 
