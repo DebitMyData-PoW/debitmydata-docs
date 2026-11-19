@@ -12,10 +12,10 @@ balances, coins' age, what holders paid, fees, mining and more.
 | --- | --- |
 | **Studio** | Thousands of ready-made charts |
 | **Oracle** | The network on one screen: hashrate, the reference price and the difficulty, each block behind the line, and small charts of how each is worked out |
-| **Explorer** | Every block, transaction and address, each block's size, and the fee to get into the next block |
+| **Explorer** | Every block, transaction and address, each block drawn by its size, and the fee to get into the next block |
 | **Compass** | Where DMD's reference price stands against what its holders paid |
 | **Globe** | Where the blocks are mined: each mining pool's country, on a globe |
-| **Trail** | Every DMD by the reference price it last moved at, as a terrain over the days |
+| **DebitMyData Trail** | Every DMD by the reference price it last moved at, as a terrain over the days |
 | **Stack** | A plan buying DMD on a schedule, beside one that buys more at Bedrock's price floors |
 | **Calendar** | Each day's blocks and pools |
 | **Miners** | Which pool first did each new thing on the chain, and every block that left coins unclaimed |
@@ -24,6 +24,10 @@ balances, coins' age, what holders paid, fees, mining and more.
 
 US dollar values use DebitMyData's [reference price](/data/reference-price/), worked out for
 every block since the first, and labeled as such: it is not a market price.
+
+The site opens in its dark theme. The moon or sun button at the top of each page switches between
+light and dark, and the choice is remembered. On a phone or tablet, each page offers to install
+itself as an app.
 
 The mining pools, their logos and countries come from DebitMyData's public lists on GitHub,
 [mining-pools](https://github.com/DebitMyData-PoW/mining-pools) and
