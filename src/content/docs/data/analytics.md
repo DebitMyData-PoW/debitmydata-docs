@@ -1,6 +1,6 @@
 ---
 title: Analytics
-description: analytics.debitmydata.io, in-depth on-chain analytics of the DebitMyData chain. Thousands of charts in Studio, every series as data, the calendar and an open API.
+description: analytics.debitmydata.io, in-depth on-chain analytics of the DebitMyData chain. Thousands of charts in Studio, the network, the mining pools on a globe, every series as data and an open API.
 coin: true
 ---
 
@@ -13,12 +13,20 @@ balances, coins' age, what holders paid, fees, mining and more.
 | **Studio** | Thousands of ready-made charts |
 | **Oracle** | The network on one screen: hashrate, the reference price and the difficulty, with a switch |
 | **Explorer** | Every block, transaction and address, and the fee to get into the next block |
+| **Compass** | Where DMD's reference price stands against what its holders paid |
+| **Globe** | Where the blocks are mined: each mining pool's country, on a globe |
 | **Calendar** | Each day's blocks and pools |
 | **Catalog** | Every series, browsed like files |
 | **API** | Every series, block, transaction and address as data |
 
 US dollar values use DebitMyData's [reference price](/data/reference-price/), worked out for
 every block since the first, and labeled as such: it is not a market price.
+
+The mining pools, their logos and countries come from DebitMyData's public lists on GitHub,
+[mining-pools](https://github.com/DebitMyData-PoW/mining-pools) and
+[mining-pool-logos](https://github.com/DebitMyData-PoW/mining-pool-logos), read every day by both
+this site and [DMD Stats](/data/stats/). A pool is known by the text it writes in its blocks or the
+addresses it pays.
 
 It is built on [Bitview](https://github.com/bitcoinresearchkit/mono), the Bitcoin Research
 Kit, adapted to DebitMyData.

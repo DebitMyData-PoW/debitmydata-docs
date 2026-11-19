@@ -12,7 +12,8 @@ live and since its first block:
 - **Mining cost**: what the electricity to mine 1 DMD costs.
 - **Reference price** and **market cap** (see [Reference price](/data/reference-price/)).
 - **On-chain volume** and transactions.
-- **Miners**: who found the last blocks, and the pool's share.
+- **Miners**: who found the last blocks, and the pool's share; the pools of DebitMyData's
+  [pool list](https://github.com/DebitMyData-PoW/mining-pools) by name, with their logos.
 - **Large transfers** and the **rich list**.
 - Charts from the last 15 minutes up to all time, with candles.
 
