@@ -15,6 +15,8 @@ balances, coins' age, what holders paid, fees, mining and more.
 | **Explorer** | Every block, transaction and address, and the fee to get into the next block |
 | **Compass** | Where DMD's reference price stands against what its holders paid |
 | **Globe** | Where the blocks are mined: each mining pool's country, on a globe |
+| **The Satoshi Trail** | Every DMD by the reference price it last moved at, as a terrain over the days |
+| **Stack** | A plan buying DMD on a schedule, beside one that buys more at Bedrock's price floors |
 | **Calendar** | Each day's blocks and pools |
 | **Catalog** | Every series, browsed like files |
 | **API** | Every series, block, transaction and address as data |
@@ -49,5 +51,6 @@ curl -s "https://analytics.debitmydata.io/api/series/search?q=supply"
 - For AI agents: [`/llms.txt`](https://analytics.debitmydata.io/llms.txt) to start, and the
   [OpenAPI description](https://analytics.debitmydata.io/openapi.json) to build tools.
 
-The API keeps Bitview's names, so tools made for it work unchanged: `btc` means DMD, `sats`
-means data (1/100,000,000 DMD) and `cents` are millionths of a dollar.
+The pages show amounts in DMD and data (1/100,000,000 DMD), and fee rates in data/vB. The API
+keeps Bitview's names, so tools made for it work unchanged: `btc` means DMD, `sats` means data and
+`cents` are millionths of a dollar.
