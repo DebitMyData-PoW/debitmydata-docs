@@ -68,6 +68,7 @@ page for anything else, long caching for `/_astro/` and `/fonts/`, and `absolute
 
 ## License
 
-The site's code is under the MIT license ([LICENSE](LICENSE)). The Mada font is under the SIL Open
-Font License ([public/fonts/OFL-Mada.txt](public/fonts/OFL-Mada.txt)). The DebitMyData logo and
-the DMD coin are DebitMyData's.
+The site's code is under the MIT license ([LICENSE](LICENSE)). Its design is DebitMyData's Aurora
+design (`src/styles/aurora.css`), the same as debitmydata.io's. The fonts (Sora, Inter, JetBrains
+Mono and Mada) are under the SIL Open Font License (their licence texts are in
+[public/fonts](public/fonts)). The DebitMyData logo and the DMD coin are DebitMyData's.

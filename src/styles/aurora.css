@@ -1,0 +1,337 @@
+/* DebitMyData Docs in DebitMyData's "Aurora" design, the same as debitmydata.io, the pool, the
+   stats site, the explorer and id.debitmydata.io: Sora headlines, Inter text, a soft red glow at
+   the top, a floating glass top bar, rounded glass cards and gradient buttons. Loaded after
+   debitmydata.css (astro.config.mjs), it changes the colours, fonts and shapes only.
+   Fonts: SIL Open Font License (public/fonts/OFL-Sora.txt, OFL-Inter.txt, OFL-JetBrainsMono.txt). */
+
+@font-face {
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url(/fonts/sora-wght.woff2) format('woff2');
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/inter-wght.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url(/fonts/jetbrains-mono-wght.woff2) format('woff2');
+}
+
+/* Dark theme */
+:root {
+  --sl-font: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --dmd-display: Sora, Inter, system-ui, sans-serif;
+  --sl-nav-height: 4.25rem;
+  --sl-nav-pad-y: 0.6rem;
+
+  --sl-color-accent-low: #2a0f16;
+  --sl-color-accent: #ff3348;
+  --sl-color-accent-high: #ff8a96;
+
+  --sl-color-white: #f7f5fa;
+  --sl-color-gray-1: #e9e6ef;
+  --sl-color-gray-2: #cfcbd8;
+  --sl-color-gray-3: #b9b4c4;
+  --sl-color-gray-4: #8f8a9b;
+  --sl-color-gray-5: #3a3644;
+  --sl-color-gray-6: #1b1922;
+  --sl-color-black: #0b0a0f;
+
+  --sl-color-bg-nav: rgb(21 19 27 / 0.72);
+  --sl-color-bg-sidebar: #0b0a0f;
+  --sl-color-hairline-light: rgb(255 255 255 / 0.12);
+  --sl-color-hairline: rgb(255 255 255 / 0.085);
+  --sl-color-hairline-shade: rgb(255 255 255 / 0.085);
+
+  --dmd-red: #ff3348;
+  --dmd-red2: #ff7a45;
+  --dmd-red-text: #ff5a6b;
+  --dmd-pink-line: rgb(255 51 72 / 0.35);
+  --dmd-card: rgb(255 255 255 / 0.045);
+  --dmd-solid: #15131b;
+  --dmd-glow1: rgb(255 51 72 / 0.24);
+  --dmd-glow2: rgb(160 40 255 / 0.12);
+  --dmd-glow3: rgb(255 122 69 / 0.12);
+  --dmd-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 24px 48px -28px rgb(0 0 0 / 0.8);
+  --dmd-bar-shadow: none;
+}
+
+/* Light theme */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #fdecef;
+  --sl-color-accent: #e0112b;
+  --sl-color-accent-high: #a10c1f;
+
+  --sl-color-white: #13111a;
+  --sl-color-gray-1: #24212c;
+  --sl-color-gray-2: #3d3a46;
+  --sl-color-gray-3: #55515f;
+  --sl-color-gray-4: #6e6a78;
+  --sl-color-gray-5: #d9d6de;
+  --sl-color-gray-6: #efedf2;
+  --sl-color-gray-7: #f7f6f9;
+  --sl-color-black: #ffffff;
+
+  --sl-color-bg-nav: rgb(255 255 255 / 0.78);
+  --sl-color-bg-sidebar: #ffffff;
+  --sl-color-hairline-light: rgb(19 17 26 / 0.1);
+  --sl-color-hairline: rgb(19 17 26 / 0.08);
+  --sl-color-hairline-shade: rgb(19 17 26 / 0.08);
+
+  --dmd-red: #e0112b;
+  --dmd-red2: #ff5a36;
+  --dmd-red-text: #d10f28;
+  --dmd-pink-line: rgb(224 17 43 / 0.25);
+  --dmd-card: rgb(255 255 255 / 0.8);
+  --dmd-solid: #ffffff;
+  --dmd-glow1: rgb(255 90 54 / 0.2);
+  --dmd-glow2: rgb(224 17 43 / 0.13);
+  --dmd-glow3: rgb(255 170 160 / 0.22);
+  --dmd-shadow: 0 1px 2px rgb(40 10 20 / 0.04), 0 24px 48px -28px rgb(80 10 20 / 0.28);
+}
+
+@media (min-width: 50em) {
+  :root {
+    --sl-nav-height: 4.75rem;
+    --sl-nav-pad-x: 1.25rem;
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  /* the glow behind the top of the page */
+  background-image: radial-gradient(38% 520px at 30% 0, var(--dmd-glow1), transparent 70%),
+    radial-gradient(34% 460px at 72% 0, var(--dmd-glow2), transparent 70%),
+    radial-gradient(30% 420px at 52% 120px, var(--dmd-glow3), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* the top bar: a floating glass pill */
+header.header {
+  background: transparent;
+  border-bottom: 0;
+  box-shadow: none;
+  padding-bottom: 0;
+}
+header.header > .header {
+  height: 100%;
+  padding: 0 0.6rem 0 1.25rem;
+  border: 1px solid var(--sl-color-hairline-light);
+  border-radius: 999px;
+  background: var(--sl-color-bg-nav);
+  backdrop-filter: saturate(1.5) blur(18px);
+  -webkit-backdrop-filter: saturate(1.5) blur(18px);
+  box-shadow: 0 10px 30px -18px rgb(20 10 20 / 0.35);
+}
+/* scrolled down, the page fades out under the floating bar instead of showing above it
+   (browsers with scroll-driven animations; the others keep the bar as it is) */
+header.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(var(--sl-color-black) 55%, transparent);
+}
+@supports (animation-timeline: scroll()) {
+  header.header::before {
+    animation: dmd-bar-fade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 60px;
+  }
+}
+@keyframes dmd-bar-fade {
+  to {
+    opacity: 1;
+  }
+}
+.site-title {
+  font-family: var(--dmd-display);
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+}
+.site-title img {
+  height: 2rem !important;
+}
+site-search button[data-open-modal] {
+  border-radius: 999px;
+  border-color: var(--sl-color-hairline-light);
+  background: var(--dmd-card);
+}
+button.sl-menu-button {
+  background: linear-gradient(135deg, var(--dmd-red), var(--dmd-red2));
+  color: #fff;
+  box-shadow: 0 10px 22px -10px var(--dmd-red);
+}
+
+/* the sidebar: the glow shows through it on wide screens; the current page in a gradient pill */
+@media (min-width: 50rem) {
+  .sidebar-pane {
+    background: transparent;
+  }
+}
+nav.sidebar a {
+  border-radius: 999px;
+}
+nav.sidebar a[aria-current='page'],
+nav.sidebar a[aria-current='page']:hover,
+nav.sidebar a[aria-current='page']:focus {
+  background: linear-gradient(135deg, var(--dmd-red), var(--dmd-red2));
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 8px 20px -12px var(--dmd-red);
+}
+nav.sidebar .large {
+  font-family: var(--dmd-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+/* headings in Sora */
+.sl-markdown-content :is(h1, h2, h3, h4),
+h1#_top,
+.hero h1 {
+  font-family: var(--dmd-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+h1#_top {
+  letter-spacing: -0.04em;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  color: var(--dmd-red);
+}
+
+/* the home page: the title centred, without a big image, "Docs" in the red gradient */
+.hero {
+  text-align: center;
+  justify-items: center;
+  padding-block: 2.5rem 1rem;
+}
+.hero {
+  grid-template-columns: 100%;
+}
+.hero .stack {
+  align-items: center;
+  text-align: center;
+}
+.hero .copy {
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(2.6rem, 6vw, 4.25rem);
+  line-height: 1.05;
+}
+.hero .tagline {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+.hero .actions {
+  justify-content: center;
+}
+.dmd-red,
+.site-title .red {
+  background: linear-gradient(115deg, var(--dmd-red) 5%, var(--dmd-red2) 65%, #ff9a62);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* buttons: gradient pills */
+.sl-link-button {
+  border-radius: 999px;
+  font-weight: 600;
+}
+.sl-link-button.primary {
+  background: linear-gradient(135deg, var(--dmd-red), var(--dmd-red2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 12px 30px -12px var(--dmd-red);
+}
+.sl-link-button.primary:hover {
+  background: linear-gradient(135deg, var(--sl-color-accent-high), var(--dmd-red));
+  border-color: transparent;
+  color: #fff;
+}
+.sl-link-button.minimal {
+  border: 1px solid var(--sl-color-hairline-light);
+  background: var(--dmd-card);
+  padding-inline: 1.25rem;
+}
+
+/* cards: rounded glass */
+.card,
+.sl-link-card {
+  border-radius: 22px;
+  border-color: var(--sl-color-hairline-light);
+  background: var(--dmd-card);
+  box-shadow: var(--dmd-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.sl-link-card:hover {
+  border-color: var(--dmd-pink-line);
+  background: var(--dmd-card);
+}
+.sl-link-card .title {
+  font-family: var(--dmd-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.card .icon {
+  border-radius: 12px;
+}
+
+/* notes, tables and code */
+.starlight-aside {
+  border-radius: 16px;
+  border-inline-start-width: 1px;
+  border: 1px solid var(--sl-color-asides-border);
+}
+.sl-markdown-content table {
+  border-radius: 14px;
+  overflow: auto; /* wide tables still scroll sideways on phones */
+  border: 1px solid var(--sl-color-hairline-light);
+}
+.sl-markdown-content :is(th, td) {
+  border-color: var(--sl-color-hairline-light);
+}
+.sl-markdown-content th {
+  background: var(--sl-color-gray-6);
+  font-weight: 600;
+}
+.sl-markdown-content :not(pre) > code {
+  border-radius: 6px;
+}
+.expressive-code .frame {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.expressive-code .frame pre {
+  border-radius: 0 0 14px 14px;
+}
+.expressive-code .frame:not(.has-title):not(.is-terminal) pre {
+  border-radius: 14px;
+}
+
+/* the pagination links at the bottom of each page */
+.pagination-links a {
+  border-radius: 18px;
+  border-color: var(--sl-color-hairline-light);
+  background: var(--dmd-card);
+  box-shadow: none;
+}
+.pagination-links a:hover {
+  border-color: var(--dmd-pink-line);
+}

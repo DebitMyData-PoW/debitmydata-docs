@@ -17,7 +17,7 @@ export default defineConfig({
         { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '64x64', href: '/favicon.png' } },
         { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } },
         { tag: 'meta', attrs: { name: 'theme-color', content: '#ffffff', media: '(prefers-color-scheme: light)' } },
-        { tag: 'meta', attrs: { name: 'theme-color', content: '#18181d', media: '(prefers-color-scheme: dark)' } },
+        { tag: 'meta', attrs: { name: 'theme-color', content: '#0b0a0f', media: '(prefers-color-scheme: dark)' } },
         { tag: 'meta', attrs: { property: 'og:image', content: `${site}/og.png` } },
         { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
         { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
@@ -25,7 +25,11 @@ export default defineConfig({
         { tag: 'link', attrs: { rel: 'alternate', type: 'text/plain', title: 'llms.txt', href: '/llms.txt' } },
         {
           tag: 'link',
-          attrs: { rel: 'preload', href: '/fonts/mada-latin-400-normal.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
+          attrs: { rel: 'preload', href: '/fonts/inter-wght.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
+        },
+        {
+          tag: 'link',
+          attrs: { rel: 'preload', href: '/fonts/sora-wght.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
         },
       ],
       social: [
@@ -34,7 +38,7 @@ export default defineConfig({
         { icon: 'youtube', label: 'YouTube', href: 'https://youtube.com/@DebitMyData' },
         { icon: 'github', label: 'GitHub', href: 'https://github.com/DebitMyData-PoW' },
       ],
-      customCss: ['./src/styles/debitmydata.css'],
+      customCss: ['./src/styles/debitmydata.css', './src/styles/aurora.css'],
       components: {
         SiteTitle: './src/components/SiteTitle.astro',
         PageTitle: './src/components/PageTitle.astro',
