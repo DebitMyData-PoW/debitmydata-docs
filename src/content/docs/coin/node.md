@@ -116,7 +116,8 @@ there (without `daemon=1`, since the service keeps it running). Its log is in
 ## Commands
 
 Run each one as `debitmydata-cli <command>`. `help` lists them all, and `help <command>`
-explains one.
+explains one. The [RPC reference](/rpc/) has every command, with its arguments, results and
+examples.
 
 ### The chain and the network
 

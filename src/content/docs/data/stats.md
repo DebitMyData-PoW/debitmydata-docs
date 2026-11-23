@@ -38,8 +38,11 @@ Free, with no key and no sign-up, readable from any website. Each file is at
 | [`/api/miners.json`](https://stats.debitmydata.io/api/miners.json) | Who found blocks over 24 hours, 7 and 30 days, and their shares | Every minute |
 | [`/api/transfers.json`](https://stats.debitmydata.io/api/transfers.json) | Large transfers of the last 7 days | Every minute |
 | [`/api/richlist.json`](https://stats.debitmydata.io/api/richlist.json) | The 100 addresses holding the most DMD | Every minute |
+| [`/api/coin.json`](https://stats.debitmydata.io/api/coin.json) | The coin's facts and figures in one file, for exchanges and listing sites: supply, market cap, price, hashrate, difficulty, block reward | Every minute |
+| [`/api/circulating-supply.txt`](https://stats.debitmydata.io/api/circulating-supply.txt) | The circulating supply as a plain number (`/api/total-supply.txt`: the total supply) | Every minute |
 | [`/api/dmd-daily.csv`](https://stats.debitmydata.io/api/dmd-daily.csv) | One line per day since block 1, for spreadsheets | Every minute |
 | [`/api/dmd-blocks.csv`](https://stats.debitmydata.io/api/dmd-blocks.csv) | One line per block since block 1 | Every hour |
 
 The [API page](https://stats.debitmydata.io/api/) describes every field and lets you try each
-file.
+file. For exchanges and listing sites, the [coin data API](/api/coin-data/) explains the supply,
+price and market cap, and shows the [rich list](/api/rich-list/).

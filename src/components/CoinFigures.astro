@@ -1,0 +1,175 @@
+---
+// The DMD coin's live figures, read in the browser from DMD Stats' public API (any site may
+// read it). The page stays readable without them: the figures are links to the files they
+// come from, and a note says so when they can't be read.
+const STATS = 'https://stats.debitmydata.io';
+const figures = [
+  ['height', 'Block height', 'Blocks since the first one'],
+  ['hashrate', 'Hashrate', 'Over the last 24 hours'],
+  ['difficulty', 'Difficulty', 'Adjusted at every block'],
+  ['reward', 'Block reward', 'Plus the fees'],
+  ['supply', 'Circulating supply', 'Every block’s reward since block 1'],
+  ['halving', 'Next halving', ''],
+  ['price', 'Reference price', 'Not a market price yet'],
+  ['cap', 'Market cap', 'At the reference price'],
+];
+---
+
+<div class="coin-figures not-content" data-stats={STATS}>
+  <dl>
+    {
+      figures.map(([key, label, note]) => (
+        <div class="figure">
+          <dt>{label}</dt>
+          <dd data-figure={key}>…</dd>
+          <dd class="note" data-note={key}>
+            {note}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+  <p class="source" data-source>
+    From <a href={`${STATS}/api/summary.json`}>stats.debitmydata.io/api/summary.json</a>, updated every minute.
+  </p>
+</div>
+
+<script>
+  type Summary = {
+    updated_at: string;
+    height: number;
+    difficulty: number;
+    hashrate_24h: number | null;
+    block_reward_dmd: number;
+    next_halving_height: number;
+    coins_mined_dmd: number;
+    market_cap_usd: number | null;
+    reference_price: { usd_per_dmd: number; price_from: string } | null;
+    market: { listed: boolean; price_usd: number | null };
+  };
+
+  const number = (value: number, digits = 0) =>
+    value.toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+
+  function hashrate(value: number | null): string {
+    if (value === null) return '—';
+    const units = ['H/s', 'kH/s', 'MH/s', 'GH/s', 'TH/s', 'PH/s', 'EH/s'];
+    let i = 0;
+    while (value >= 1000 && i < units.length - 1) {
+      value /= 1000;
+      i += 1;
+    }
+    return `${number(value, 2)} ${units[i]}`;
+  }
+
+  const usd = (value: number | null, digits = 2) => (value === null ? '—' : `$${number(value, digits)}`);
+  // a price: at least 2 decimals, up to 6 ($0.001, $1.25, $0.000125)
+  const price = (value: number | null) =>
+    value === null
+      ? '—'
+      : `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`;
+
+  for (const box of document.querySelectorAll<HTMLElement>('.coin-figures')) {
+    const stats = box.dataset.stats;
+    const set = (key: string, text: string) => {
+      const cell = box.querySelector(`[data-figure="${key}"]`);
+      if (cell) cell.textContent = text;
+    };
+    const note = (key: string, text: string) => {
+      const cell = box.querySelector(`[data-note="${key}"]`);
+      if (cell) cell.textContent = text;
+    };
+    fetch(`${stats}/api/summary.json`, { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((s: Summary) => {
+        set('height', number(s.height));
+        set('hashrate', hashrate(s.hashrate_24h));
+        set('difficulty', number(s.difficulty, 2));
+        set('reward', `${number(s.block_reward_dmd, 8).replace(/\.?0+$/, '')} DMD`);
+        set('supply', `${number(s.coins_mined_dmd)} DMD`);
+        set('halving', `Block ${number(s.next_halving_height)}`);
+        note('halving', `In ${number(s.next_halving_height - s.height)} blocks`);
+        const listed = s.market.listed && s.market.price_usd !== null;
+        if (listed) {
+          set('price', price(s.market.price_usd));
+          note('price', 'Market price');
+          set('cap', usd(s.market.price_usd! * s.coins_mined_dmd));
+          note('cap', 'At the market price');
+        } else {
+          set('price', price(s.reference_price?.usd_per_dmd ?? null));
+          set('cap', usd(s.market_cap_usd));
+        }
+        const when = new Date(s.updated_at);
+        const source = box.querySelector('[data-source]');
+        if (source && !Number.isNaN(when.getTime())) {
+          source.append(
+            ` Last update: ${when.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' })} UTC.`,
+          );
+        }
+      })
+      .catch(() => {
+        for (const cell of box.querySelectorAll('[data-figure]')) cell.textContent = '—';
+        box.querySelector('[data-source]')?.prepend('The live figures could not be read just now. ');
+      });
+  }
+</script>
+
+<style>
+  .coin-figures {
+    margin-block: 1.25rem 1.5rem;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .figure {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    background: var(--dmd-card);
+    min-width: 0;
+  }
+  dt {
+    font-size: var(--sl-text-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3);
+  }
+  dd {
+    margin: 0.3rem 0 0;
+    font-size: var(--sl-text-xl);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--sl-color-white);
+    overflow-wrap: anywhere;
+  }
+  dd.note {
+    margin-top: 0.15rem;
+    font-size: var(--sl-text-xs);
+    font-weight: 400;
+    color: var(--sl-color-gray-3);
+  }
+  .source {
+    margin-top: 0.75rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .source a {
+    color: var(--dmd-red-text);
+  }
+  @media (max-width: 30em) {
+    dl {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .figure {
+      padding: 0.7rem 0.75rem;
+    }
+    dd {
+      font-size: var(--sl-text-lg);
+    }
+  }
+</style>

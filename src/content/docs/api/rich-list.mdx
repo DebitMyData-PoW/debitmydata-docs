@@ -1,0 +1,48 @@
+---
+title: Rich list
+description: The 100 addresses holding the most DMD, live, with their balances and their share of the supply, and the JSON file they come from.
+coin: true
+---
+
+import RichList from '../../../components/RichList.astro';
+
+The addresses holding the most DMD, counted by [DMD Stats](/data/stats/) from every block since
+block 1: each block's rewards and every transaction. An address marked **Pool** belongs to a
+mining pool on DebitMyData's [pool list](https://github.com/DebitMyData-PoW/mining-pools): it
+holds the DMD the pool pays its miners. Each address opens in the mempool explorer.
+
+<RichList />
+
+## As JSON
+
+[`https://stats.debitmydata.io/api/richlist.json`](https://stats.debitmydata.io/api/richlist.json),
+updated every minute:
+
+```json
+{
+ "ready": true,
+ "blocks_left_to_count": 0,
+ "height": 152433,
+ "addresses": [
+  {
+   "rank": 1,
+   "address": "dm1q…",
+   "dmd": 515467.99763089,
+   "share_of_mined": 0.096617,
+   "pool": false
+  }
+ ]
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `ready` | `false` while DMD Stats is still counting the blocks (after a new install) |
+| `height` | The block the list was counted at |
+| `rank`, `address`, `dmd` | The address's place in the list and its balance |
+| `share_of_mined` | Its share of all the DMD mined, from 0 to 1 |
+| `pool` | `true` for a mining pool's address |
+
+An address is one line in the list, not one person: one person can hold many addresses, and
+an exchange holds its customers' DMD in a few. The [explorer](https://explorer.debitmydata.io/)
+shows how the supply is spread across all addresses.

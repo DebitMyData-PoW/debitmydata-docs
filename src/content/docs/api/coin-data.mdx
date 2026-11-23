@@ -1,0 +1,162 @@
+---
+title: Coin data API
+description: The DMD coin's live figures, free and with no key. Circulating and total supply, market cap, hashrate, difficulty, block reward, height and the rich list, in JSON or as plain numbers.
+coin: true
+---
+
+import CoinFigures from '../../../components/CoinFigures.astro';
+
+The DebitMyData chain's figures are free to use, with no key and no sign-up, from any website
+or program. They come from [DMD Stats](/data/stats/), which follows the chain with its own
+DebitMyData node and counts every block since block 1. They are updated every minute.
+
+## Right now
+
+<CoinFigures />
+
+## Endpoints
+
+Each request starts with `https://stats.debitmydata.io`:
+
+| Request | Answers | Format |
+| --- | --- | --- |
+| [`/api/coin.json`](https://stats.debitmydata.io/api/coin.json) | The coin's facts and figures in one file: supply, market cap, price, hashrate, difficulty, height, block reward, next halving | JSON |
+| [`/api/circulating-supply.txt`](https://stats.debitmydata.io/api/circulating-supply.txt) | The DMD in circulation, as a plain number | Text |
+| [`/api/total-supply.txt`](https://stats.debitmydata.io/api/total-supply.txt) | The total supply, as a plain number | Text |
+| [`/api/richlist.json`](https://stats.debitmydata.io/api/richlist.json) | The 100 addresses holding the most DMD (see [Rich list](/api/rich-list/)) | JSON |
+| [`/api/summary.json`](https://stats.debitmydata.io/api/summary.json) | The stats page's figures, with their 24-hour changes: also volume, transactions, mining cost and the hashrate's all-time high | JSON |
+| [`/api/miners.json`](https://stats.debitmydata.io/api/miners.json) | Who found the blocks of the last 24 hours, 7 and 30 days | JSON |
+| [`/api/blocks.json`](https://stats.debitmydata.io/api/blocks.json) | The last 1,000 blocks and who found each | JSON |
+| `/api/chart-<range>.json` | History for charts, from `15m` to `all` | JSON |
+| [`/api/dmd-daily.csv`](https://stats.debitmydata.io/api/dmd-daily.csv) | One line per day since block 1 | CSV |
+
+```sh
+curl -s https://stats.debitmydata.io/api/coin.json
+curl -s https://stats.debitmydata.io/api/circulating-supply.txt
+```
+
+Every file can be read from a web page on any site (CORS is open). Cloudflare keeps each one
+for a minute, so there's no point asking more often than that.
+
+## coin.json
+
+```json
+{
+ "updated_at": "2026-11-23T09:37:38+00:00",
+ "name": "DebitMyData PoW",
+ "ticker": "DMD",
+ "algorithm": "SHA-256",
+ "decimals": 8,
+ "block_time_seconds": 150,
+ "coinbase_maturity_blocks": 250,
+ "height": 152433,
+ "last_block": {
+  "hash": "00000000000008bbfc334e8e443c16b4e9356452d7c363a7605a0f7d9f695a01",
+  "time": "2026-11-23T09:37:16+00:00"
+ },
+ "difficulty": 1367952.86426659,
+ "hashrate": 23165400000000.0,
+ "block_reward_dmd": 35.0,
+ "next_halving_height": 300000,
+ "blocks_to_next_halving": 147567,
+ "supply": {
+  "circulating_dmd": 5335155.0,
+  "total_dmd": 5335155.0,
+  "max_dmd": null,
+  "per_cycle_dmd": 20999999.964,
+  "halving_blocks": 300000,
+  "cycle_blocks": 9600000
+ },
+ "price": {
+  "listed": false,
+  "market_usd": null,
+  "reference_usd": 0.001,
+  "reference_from": "minimum"
+ },
+ "market_cap_usd": 5335.15,
+ "market_cap_from": "reference_price",
+ "trading_volume_24h_usd": null,
+ "chain_normal": true,
+ "links": {
+  "website": "https://debitmydata.io/",
+  "docs": "https://docs.debitmydata.io/api/coin-data/",
+  "rich_list": "https://stats.debitmydata.io/api/richlist.json",
+  "explorers": [
+   "https://mempool.debitmydata.io/",
+   "https://chain.debitmydata.io/",
+   "https://explorer.debitmydata.io/"
+  ],
+  "source_code": "https://github.com/DebitMyData-PoW/DebitMyData-PoW-Core"
+ }
+}
+```
+
+| Field | Meaning |
+| --- | --- |
+| `height`, `last_block` | The latest block: its height, hash and time |
+| `difficulty` | The latest block's difficulty |
+| `hashrate` | The network's hashrate over the last 24 hours, in hashes per second, worked out from the blocks found |
+| `block_reward_dmd` | New DMD in each block now (the miner also gets the fees) |
+| `next_halving_height`, `blocks_to_next_halving` | When the reward halves next |
+| `supply.circulating_dmd`, `supply.total_dmd` | The DMD in existence (see [Supply](#supply)) |
+| `supply.max_dmd` | `null`: DMD has no maximum supply |
+| `supply.per_cycle_dmd` | What one cycle of 32 halvings creates |
+| `price.listed` | `true` once DMD trades on an exchange |
+| `price.market_usd` | The market price, `null` until DMD trades on an exchange |
+| `price.reference_usd` | DebitMyData's [reference price](/data/reference-price/), and `reference_from` says what set it (`minimum` or `mining_cost`) |
+| `market_cap_usd`, `market_cap_from` | The supply times the market price, or times the reference price until there is one (`market_cap_from` says which) |
+| `trading_volume_24h_usd` | The exchanges' trading volume, `null` until DMD trades on one |
+| `chain_normal` | `false` while DMD Stats sees a problem with the chain (blocks stopped, a fork) |
+
+## Supply
+
+The circulating supply and the total supply are the same number: **every block's reward since
+block 1**. DMD had no pre-mine, and none of it is locked or held back. The first block's reward
+can't be spent, as in Bitcoin, so it isn't counted.
+
+**DMD has no maximum supply.** The reward is 35 DMD per block and halves every 300,000 blocks.
+After 32 halvings (9,600,000 blocks, about 45.7 years) it starts again at 35 DMD, so each cycle
+creates 20,999,999.964 DMD (see [Supply cycles](/coin/overview/#supply-cycles)).
+
+For a listing site's supply fields:
+
+| Field | What to give |
+| --- | --- |
+| Circulating supply | `https://stats.debitmydata.io/api/circulating-supply.txt` |
+| Total supply | `https://stats.debitmydata.io/api/total-supply.txt` |
+| Max supply | None (no maximum: 20,999,999.964 DMD per cycle, in repeating cycles) |
+
+The explorer's [`/ext/getmoneysupply`](https://explorer.debitmydata.io/ext/getmoneysupply)
+gives the same number from its own node.
+
+## Price and market cap
+
+DMD isn't on an exchange yet, so it has no market price. Until it is, `coin.json` gives
+DebitMyData's [reference price](/data/reference-price/): the cost of mining DMD, never below
+$0.001. The market cap is the supply times that price, and `market_cap_from` says
+`reference_price`. Once DMD trades on an exchange, the market price takes over and
+`market_cap_from` says `market_price`.
+
+## Hashrate and difficulty
+
+- **Hashrate** is worked out from the blocks found: the work they took divided by the time
+  they took, over 24 hours. One lucky block doesn't move it much.
+- **Difficulty** is the latest block's, exactly. DebitMyData adjusts it at every block with
+  LWMA over the last 60 blocks, for 150-second blocks.
+
+## Single values
+
+The [explorers](/data/explorers/) answer single values and lookups too:
+
+| Request | Answers |
+| --- | --- |
+| `https://explorer.debitmydata.io/api/getblockcount` | The height |
+| `https://explorer.debitmydata.io/api/getdifficulty` | The difficulty |
+| `https://explorer.debitmydata.io/api/getnetworkhashps` | The hashrate, in hashes per second |
+| `https://explorer.debitmydata.io/ext/getmoneysupply` | The supply |
+| `https://mempool.debitmydata.io/api/address/ADDRESS` | An address's balance and transactions |
+| `https://mempool.debitmydata.io/api/tx/TXID` | A transaction |
+
+With your own node, every figure is also one command away: see the
+[RPC reference](/rpc/), for example [`getblockchaininfo`](/rpc/getblockchaininfo/),
+[`getmininginfo`](/rpc/getmininginfo/) and [`gettxoutsetinfo`](/rpc/gettxoutsetinfo/).

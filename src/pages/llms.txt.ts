@@ -25,6 +25,9 @@ export const GET: APIRoute = async ({ site }) => {
       const about = entry.data.description ? `: ${entry.data.description}` : '';
       lines.push(`- [${entry.data.title}](${base}/${id}/)${about}`);
     }
+    if (section.label === 'RPC reference') {
+      lines.push(`- Each command has its own page, at ${base}/rpc/COMMAND/ (for example ${base}/rpc/getblock/)`);
+    }
     lines.push('');
   }
 

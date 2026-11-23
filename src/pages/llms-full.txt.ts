@@ -18,8 +18,14 @@ export const GET: APIRoute = async ({ site }) => {
       '',
       `URL: ${base}/${id}/`,
       '',
-      // Starlight's asides (:::note) read as plain paragraphs.
-      (entry.body ?? '').replace(/^:::\w*(\[[^\]]*\])?\s*$/gm, '').trim(),
+      // Starlight's asides (:::note) read as plain paragraphs; an MDX page's imports and
+      // components (the live figures, read in the browser) are left out.
+      (entry.body ?? '')
+        .replace(/^:::\w*(\[[^\]]*\])?\s*$/gm, '')
+        .replace(/^import .*$/gm, '')
+        .replace(/^<[A-Z]\w*[^>]*\/>\s*$/gm, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim(),
       '',
     );
   }

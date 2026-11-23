@@ -1,0 +1,37 @@
+---
+title: removeprunedfunds
+description: "Deletes the specified transaction from the wallet. DebitMyData Core RPC command."
+coin: true
+---
+
+[Wallet](/rpc/#wallet) command of DebitMyData Core 1.3.5.
+
+```text
+removeprunedfunds "txid"
+```
+
+Deletes the specified transaction from the wallet. Meant for use with pruned wallets and as a companion to importprunedfunds. This will affect wallet balances.
+
+## Arguments
+
+```text
+1. txid    (string, required) The hex-encoded id of the transaction you are deleting
+```
+
+## Result
+
+```text
+null    (json null)
+```
+
+## Examples
+
+```sh
+debitmydata-cli removeprunedfunds "a8d0c0184dde994a09ec054286f1ce581bebf46446a512166eae7628734ea0a5"
+```
+
+As a JSON-RPC call
+
+```sh
+curl --user myusername --data-binary '{"jsonrpc": "2.0", "id": "curltest", "method": "removeprunedfunds", "params": ["a8d0c0184dde994a09ec054286f1ce581bebf46446a512166eae7628734ea0a5"]}' -H 'content-type: application/json' http://127.0.0.1:18557/
+```

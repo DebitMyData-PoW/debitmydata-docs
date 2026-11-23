@@ -1,0 +1,161 @@
+---
+// The rich list, read in the browser from DMD Stats' public API: the 100 addresses holding the
+// most DMD, each linked to the mempool explorer. Without it, the table says where the list is.
+const STATS = 'https://stats.debitmydata.io';
+---
+
+<div class="rich-list" data-stats={STATS}>
+  <p class="rich-source" data-source>
+    From <a href={`${STATS}/api/richlist.json`}>stats.debitmydata.io/api/richlist.json</a>, updated every minute.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Address</th>
+        <th scope="col" class="num">DMD</th>
+        <th scope="col" class="num">Share</th>
+      </tr>
+    </thead>
+    <tbody data-rows>
+      <tr>
+        <td colspan="4">Loading the rich list…</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  type Entry = { rank: number; address: string; dmd: number; share_of_mined: number | null; pool: boolean };
+  type RichList = { ready: boolean; height: number | null; addresses: Entry[] };
+
+  const EXPLORER = 'https://mempool.debitmydata.io/address/';
+
+  function cell(text: string, className = ''): HTMLTableCellElement {
+    const td = document.createElement('td');
+    td.textContent = text;
+    if (className) td.className = className;
+    return td;
+  }
+
+  for (const box of document.querySelectorAll<HTMLElement>('.rich-list')) {
+    const rows = box.querySelector('[data-rows]');
+    if (!rows) continue;
+    const say = (text: string) => {
+      const tr = document.createElement('tr');
+      const td = cell(text);
+      td.colSpan = 4;
+      tr.append(td);
+      rows.replaceChildren(tr);
+    };
+    fetch(`${box.dataset.stats}/api/richlist.json`, { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((list: RichList) => {
+        if (!list.ready || !list.addresses.length) {
+          say('The rich list is still being counted. Try again in a few minutes.');
+          return;
+        }
+        rows.replaceChildren(
+          ...list.addresses.map((e) => {
+            const tr = document.createElement('tr');
+            const where = document.createElement('td');
+            where.className = 'address';
+            const link = document.createElement('a');
+            link.href = EXPLORER + encodeURIComponent(e.address);
+            link.textContent = e.address;
+            where.append(link);
+            if (e.pool) {
+              const tag = document.createElement('span');
+              tag.className = 'tag';
+              tag.textContent = 'Pool';
+              where.append(' ', tag);
+            }
+            const dmd = e.dmd.toLocaleString('en-US', { maximumFractionDigits: 8 });
+            const share =
+              e.share_of_mined === null
+                ? '—'
+                : `${(e.share_of_mined * 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+            tr.append(cell(String(e.rank)), where, cell(dmd, 'num'), cell(share, 'num'));
+            return tr;
+          }),
+        );
+        if (list.height) {
+          box.querySelector('[data-source]')?.append(` At block ${list.height.toLocaleString('en-US')}.`);
+        }
+      })
+      .catch(() => say('The rich list could not be read just now. Open the link above instead.'));
+  }
+</script>
+
+<style>
+  .rich-list table {
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+  }
+  .rich-list :global(.num) {
+    text-align: end;
+    white-space: nowrap;
+  }
+  .rich-list :global(.address) {
+    font-family: var(--__sl-font-mono);
+    font-size: var(--sl-text-xs);
+    word-break: break-all;
+  }
+  .rich-list :global(.tag) {
+    display: inline-block;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--dmd-pink-line);
+    color: var(--dmd-red-text);
+    font-family: var(--__sl-font);
+    font-size: 0.7rem;
+    font-weight: 600;
+    word-break: normal;
+  }
+  .rich-source {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  /* A phone: each address on its own line, its balance and share below it. */
+  @media (max-width: 40em) {
+    .rich-list table,
+    .rich-list tbody {
+      display: block;
+    }
+    .rich-list thead {
+      display: none;
+    }
+    .rich-list :global(tbody tr) {
+      display: grid;
+      grid-template-columns: 2.25rem 1fr auto;
+      grid-template-areas: 'rank address address' 'rank dmd share';
+      column-gap: 0.75rem;
+      row-gap: 0.15rem;
+      padding: 0.6rem 0.25rem;
+      border-bottom: 1px solid var(--sl-color-hairline);
+    }
+    .rich-list :global(tbody td) {
+      border: 0;
+      padding: 0;
+      margin: 0;
+    }
+    .rich-list :global(tbody td[colspan]) {
+      grid-column: 1 / -1;
+    }
+    .rich-list :global(tbody td:nth-child(1):not([colspan])) {
+      grid-area: rank;
+      font-weight: 600;
+    }
+    .rich-list :global(tbody td:nth-child(2)) {
+      grid-area: address;
+    }
+    .rich-list :global(tbody td:nth-child(3)) {
+      grid-area: dmd;
+      text-align: start;
+    }
+    .rich-list :global(tbody td:nth-child(4)) {
+      grid-area: share;
+      color: var(--sl-color-gray-3);
+    }
+  }
+</style>

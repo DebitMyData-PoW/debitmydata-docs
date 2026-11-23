@@ -1,0 +1,49 @@
+---
+title: getbalance
+description: "Returns the total available balance. DebitMyData Core RPC command."
+coin: true
+---
+
+[Wallet](/rpc/#wallet) command of DebitMyData Core 1.3.5.
+
+```text
+getbalance ( "dummy" minconf include_watchonly avoid_reuse )
+```
+
+Returns the total available balance.\
+The available balance is what the wallet considers currently spendable, and is thus affected by options which limit spendability such as -spendzeroconfchange.
+
+## Arguments
+
+```text
+1. dummy                (string, optional) Remains for backward compatibility. Must be excluded or set to "*".
+2. minconf              (numeric, optional, default=0) Only include transactions confirmed at least this many times.
+3. include_watchonly    (boolean, optional, default=false) No longer used
+4. avoid_reuse          (boolean, optional, default=true) (only available if avoid_reuse wallet flag is set) Do not include balance in dirty outputs; addresses are considered dirty if they have previously been used in a transaction.
+```
+
+## Result
+
+```text
+n    (numeric) The total amount in DMD received for this wallet.
+```
+
+## Examples
+
+The total amount in the wallet with 0 or more confirmations
+
+```sh
+debitmydata-cli getbalance
+```
+
+The total amount in the wallet with at least 6 confirmations
+
+```sh
+debitmydata-cli getbalance "*" 6
+```
+
+As a JSON-RPC call
+
+```sh
+curl --user myusername --data-binary '{"jsonrpc": "2.0", "id": "curltest", "method": "getbalance", "params": ["*", 6]}' -H 'content-type: application/json' http://127.0.0.1:18557/
+```

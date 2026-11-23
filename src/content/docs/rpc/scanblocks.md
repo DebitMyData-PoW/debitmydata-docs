@@ -1,0 +1,91 @@
+---
+title: scanblocks
+description: "Return relevant blockhashes for given descriptors (requires blockfilterindex). DebitMyData Core RPC command."
+coin: true
+---
+
+[Blockchain](/rpc/#blockchain) command of DebitMyData Core 1.3.5.
+
+```text
+scanblocks "action" ( [scanobjects,...] start_height stop_height "filtertype" options )
+```
+
+Return relevant blockhashes for given descriptors (requires blockfilterindex).\
+This call may take several minutes. Make sure to use no RPC timeout (debitmydata-cli -rpcclienttimeout=0)
+
+## Arguments
+
+```text
+1. action                        (string, required) The action to execute
+                                 "start" for starting a scan
+                                 "abort" for aborting the current scan (returns true when abort was successful)
+                                 "status" for progress report (in %) of the current scan
+2. scanobjects                   (json array, optional) Array of scan objects. Required for "start" action
+                                 Every scan object is either a string descriptor or an object:
+     [
+       "descriptor",             (string) An output descriptor
+       {                         (json object) An object with output descriptor and metadata
+         "desc": "str",          (string, required) An output descriptor
+         "range": n or [n,n],    (numeric or array, optional, default=1000) The range of HD chain indexes to explore (either end or [begin,end])
+       },
+       ...
+     ]
+3. start_height                  (numeric, optional, default=0) Height to start to scan from
+4. stop_height                   (numeric, optional, default=chain tip) Height to stop to scan
+5. filtertype                    (string, optional, default="basic") The type name of the filter
+6. options                       (json object, optional) Options object that can be used to pass named arguments, listed below.
+```
+
+## Named Arguments
+
+```text
+filter_false_positives    (boolean, optional, default=false) Filter false positives (slower and may fail on pruned nodes). Otherwise they may occur at a rate of 1/M
+```
+
+## Results
+
+### When action=='status' and no scan is in progress - possibly already completed
+
+```text
+null    (json null)
+```
+
+### When action=='start'; only returns after scan completes
+
+```text
+{                              (json object)
+  "from_height" : n,           (numeric) The height we started the scan from
+  "to_height" : n,             (numeric) The height we ended the scan at
+  "relevant_blocks" : [        (json array) Blocks that may have matched a scanobject.
+    "hex",                     (string) A relevant blockhash
+    ...
+  ],
+  "completed" : true|false     (boolean) true if the scan process was not aborted
+}
+```
+
+### When action=='status' and a scan is currently in progress
+
+```text
+{                          (json object)
+  "progress" : n,          (numeric) Approximate percent complete
+  "current_height" : n     (numeric) Height of the block currently being scanned
+}
+```
+
+### When action=='abort'
+
+```text
+true|false    (boolean) True if scan will be aborted (not necessarily before this RPC returns), or false if there is no scan to abort
+```
+
+## Examples
+
+```sh
+debitmydata-cli scanblocks start '["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"]' 300000
+debitmydata-cli scanblocks start '["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"]' 100 150 basic
+debitmydata-cli scanblocks status
+curl --user myusername --data-binary '{"jsonrpc": "2.0", "id": "curltest", "method": "scanblocks", "params": ["start", ["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"], 300000]}' -H 'content-type: application/json' http://127.0.0.1:18557/
+curl --user myusername --data-binary '{"jsonrpc": "2.0", "id": "curltest", "method": "scanblocks", "params": ["start", ["addr(bcrt1q4u4nsgk6ug0sqz7r3rj9tykjxrsl0yy4d0wwte)"], 100, 150, "basic"]}' -H 'content-type: application/json' http://127.0.0.1:18557/
+curl --user myusername --data-binary '{"jsonrpc": "2.0", "id": "curltest", "method": "scanblocks", "params": ["status"]}' -H 'content-type: application/json' http://127.0.0.1:18557/
+```

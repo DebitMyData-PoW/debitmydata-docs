@@ -1,5 +1,10 @@
 // The site's sections and their pages, in reading order. The sidebar, llms.txt and
 // llms-full.txt all follow this list, so a new page is added here once.
+//
+// The RPC reference's command pages are listed by scripts/rpc-reference.mjs (in
+// rpc-commands.mjs): the sidebar shows them by group, and llms.txt points to their list.
+import { rpcCategories } from './rpc-commands.mjs';
+
 export const sections = [
   {
     label: 'Start here',
@@ -8,6 +13,14 @@ export const sections = [
   {
     label: 'The DMD coin',
     items: ['coin/overview', 'coin/wallets', 'coin/node', 'coin/mining'],
+  },
+  {
+    label: 'DMD coin API',
+    items: ['api/coin-data', 'api/rich-list', 'api/listings'],
+  },
+  {
+    label: 'RPC reference',
+    items: ['rpc'],
   },
   {
     label: 'DID-LLM',
@@ -32,6 +45,14 @@ export const sections = [
   },
 ];
 
-export const sidebar = sections.map(({ label, items }) => ({ label, items }));
+const rpcGroups = rpcCategories.map(({ label, commands }) => ({
+  label,
+  collapsed: true,
+  items: commands.map((name) => `rpc/${name}`),
+}));
+
+export const sidebar = sections.map(({ label, items }) =>
+  label === 'RPC reference' ? { label, collapsed: true, items: [...items, ...rpcGroups] } : { label, items },
+);
 
 export const pageOrder = sections.flatMap(({ items }) => items);
