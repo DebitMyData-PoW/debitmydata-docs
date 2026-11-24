@@ -1,105 +1,41 @@
 # DebitMyData Docs
 
 The documentation website of DebitMyData, at **[docs.debitmydata.io](https://docs.debitmydata.io)**:
-the DMD coin and its Proof-of-Work chain, wallets, running a node, mining, the explorers, the
-DID-LLM and the DebitMyData Agent Gateway (MCP server, A2A, sign-in, REST API), the stats and
-analytics sites, and every public API.
+everything a user, a miner, a developer or an AI agent needs, in one place.
 
-It is a static site made with [Starlight](https://starlight.astro.build) (Astro): Markdown pages
-in, plain HTML pages out, with search, light and dark themes, and `/llms.txt` and
-`/llms-full.txt` for AI agents. Nothing runs on the server but nginx, serving the files.
+## What it covers
 
-## Editing a page
-
-The pages are Markdown files in [`src/content/docs/`](src/content/docs/), one per page:
-
-| Section | Folder |
+| Section | |
 | --- | --- |
-| Start here | `start/` |
-| The DMD coin: specs, wallets, node, mining | `coin/` |
-| DMD coin API: coin data, rich list, exchanges and listings | `api/` |
-| RPC reference: every DebitMyData Core command (written by a script, see below) | `rpc/` |
-| DID-LLM | `did-llm/` |
-| Developers and agents | `developers/` |
-| Explorers and data: explorers, stats, analytics, reference price | `data/` |
-| Project: source code, community | `project/` |
-| The home page | `index.mdx` |
+| **Start here** | What DebitMyData is, and where to begin |
+| **The DMD coin** | Its specifications, wallets, running a node, mining |
+| **DMD coin API** | Coin data, the rich list, and the figures exchanges and listing sites read |
+| **RPC reference** | Every DebitMyData Core command, one page each, written from the node's own help |
+| **DID-LLM** | The verifiable identity for AI agents, people and organizations |
+| **Developers and agents** | The DebitMyData Agent Gateway: its MCP server, A2A, sign-in and REST API |
+| **Explorers and data** | The explorers, the stats and analytics sites, the reference price |
+| **Project** | The source code and the community |
 
-Each file starts with its `title` and `description` (used by search engines, link previews and
-`llms.txt`). Pages about the DMD coin or one of its platforms add `coin: true`, which shows the
-coin beside their title; the rest of the site uses the DebitMyData logo.
+The coin data and rich list pages show live figures, read in the visitor's browser from
+[DMD Stats' API](https://stats.debitmydata.io/api/). The whole site is also published as
+`/llms.txt` and `/llms-full.txt`, so that AI agents can read it in one request.
 
-**A new page:** add its file, then its path (without `.md`) to [`src/sidebar.mjs`](src/sidebar.mjs),
-which orders the sidebar, `llms.txt` and `llms-full.txt`.
+## How it is made
 
-Write "DebitMyData" for the project, its chain and nodes, "DMD" only for the coin's ticker, and
-"DID-LLM" for the identity. Never put a server's IP address, a private key, or anything else
-private in this repository: it is public.
+A static site made with [Starlight](https://starlight.astro.build) (Astro): Markdown pages in,
+plain HTML pages out, with search, light and dark themes, in DebitMyData's Aurora design. Nothing
+runs on the server but nginx, serving the files, so there is nothing on it to attack beyond the
+web server itself.
 
-## The RPC reference
+## Working on it
 
-The pages in `src/content/docs/rpc/` come from DebitMyData Core's own help, one page per
-command, like Bitcoin's [RPC reference](https://developer.bitcoin.org/reference/rpc/). After each
-new DebitMyData Core release, write them again from a node running the new version. A
-throwaway regtest node, with no network, is enough:
-
-```sh
-debitmydatad -regtest -datadir=/tmp/dmd-help -daemon -listen=0 -connect=0 -dnsseed=0
-sleep 5
-DMD_CLI="debitmydata-cli -regtest -datadir=/tmp/dmd-help" npm run rpc-reference
-debitmydata-cli -regtest -datadir=/tmp/dmd-help stop
-rm -rf /tmp/dmd-help
-```
-
-(Start from an empty folder each time: on its first start the node writes a `debitmydata.conf`
-with the seed nodes, which a regtest node refuses on its next start.)
-
-`DMD_CLI` is the command that reaches the node, with any options it needs (for example
-`debitmydata-cli -regtest -datadir=/tmp/dmd`). The script only reads the node's help. It rewrites
-each command's page, the command list in `rpc/index.md` (between its two markers; the text
-above them is written by hand) and `src/rpc-commands.mjs`, which the sidebar reads. The words
-about DebitMyData's own commands are in the script (`DEBITMYDATA_ONLY`).
-
-The live figures on the coin data and rich list pages are read in the visitor's browser from
-[DMD Stats' API](https://stats.debitmydata.io/api/) (`src/components/CoinFigures.astro` and
-`RichList.astro`), so they need no build.
-
-## Trying it locally
-
-With [Node.js](https://nodejs.org) 22.23 or later:
-
-```sh
-npm ci
-npm run dev          # http://localhost:4321, the page reloads as you edit
-npm run build        # the finished site, in dist/
-npm run check-links  # after a build: every link inside the site leads somewhere
-```
-
-## Putting it online
-
-The site is plain files, served by **nginx** at `docs.debitmydata.io`, behind Cloudflare. Nothing
-links this repository to the server: the site changes only when someone uploads a new version by
-hand.
-
-**Build it:**
-
-```sh
-npm ci
-npm run build
-cd dist && zip -r ../debitmydata-docs-site.zip . && cd ..
-```
-
-**Each new version**, on the server: empty the site's folder (`rm -rf /var/www/docs/*`), then
-upload the zip's contents into it (with `scp`, `rsync` or an SFTP client). Nothing needs
-restarting.
-
-The nginx site serves `/var/www/docs` as it is: `try_files $uri $uri/ $uri.html =404`, the 404
-page for anything else, long caching for `/_astro/` and `/fonts/`, and `absolute_redirect off`.
-[`public/_headers`](public/_headers) lists the headers every page gets; nginx sets the same ones.
+- **[INSTALL.md](INSTALL.md)**: trying it on your computer, building it, and putting it online.
+- **[CONTRIBUTING.md](CONTRIBUTING.md)**: editing and adding pages, and writing the RPC reference
+  again after a new DebitMyData Core release.
 
 ## License
 
 The site's code is under the MIT license ([LICENSE](LICENSE)). Its design is DebitMyData's Aurora
-design (`src/styles/aurora.css`), the same as debitmydata.io's. The fonts (Sora, Inter, JetBrains
-Mono and Mada) are under the SIL Open Font License (their licence texts are in
-[public/fonts](public/fonts)). The DebitMyData logo and the DMD coin are DebitMyData's.
+design (`src/styles/aurora.css`). The fonts (Sora, Inter, JetBrains Mono and Mada) are under the
+SIL Open Font License (their licence texts are in [public/fonts](public/fonts)). The DebitMyData
+logo and the DMD coin are DebitMyData's.
