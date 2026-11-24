@@ -64,7 +64,7 @@ The live figures on the coin data and rich list pages are read in the visitor's 
 [DMD Stats' API](https://stats.debitmydata.io/api/) (`src/components/CoinFigures.astro` and
 `RichList.astro`), so they need no build.
 
-## Trying it on your computer
+## Trying it locally
 
 With [Node.js](https://nodejs.org) 22.23 or later:
 
@@ -81,7 +81,7 @@ The site is plain files, served by **nginx** at `docs.debitmydata.io`, behind Cl
 links this repository to the server: the site changes only when someone uploads a new version by
 hand.
 
-**Build it** (or use the `debitmydata-docs-site.zip` made for you):
+**Build it:**
 
 ```sh
 npm ci
@@ -90,7 +90,8 @@ cd dist && zip -r ../debitmydata-docs-site.zip . && cd ..
 ```
 
 **Each new version**, on the server: empty the site's folder (`rm -rf /var/www/docs/*`), then
-upload the zip's contents into it (with WinSCP, for example). Nothing needs restarting.
+upload the zip's contents into it (with `scp`, `rsync` or an SFTP client). Nothing needs
+restarting.
 
 The nginx site serves `/var/www/docs` as it is: `try_files $uri $uri/ $uri.html =404`, the 404
 page for anything else, long caching for `/_astro/` and `/fonts/`, and `absolute_redirect off`.
