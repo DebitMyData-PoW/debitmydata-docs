@@ -3,6 +3,8 @@
 The documentation website of DebitMyData, at **[docs.debitmydata.io](https://docs.debitmydata.io)**:
 everything a user, a miner, a developer or an AI agent needs, in one place.
 
+![DebitMyData Docs: the home page and a page of the guide, in the dark and light themes](docs/images/docs-preview.webp)
+
 ## What it covers
 
 | Section | |
