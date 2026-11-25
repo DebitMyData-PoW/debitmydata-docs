@@ -19,7 +19,7 @@ DebitMyData is run by **Debit My Data, Inc.** Its CEO is **Preska Thomas**.
 | **DID-LLM** | A W3C `did:web` identity with a credential signed by DebitMyData. $25.00, paid once | [id.debitmydata.io](https://id.debitmydata.io/), [DID-LLM](/did-llm/overview/) |
 | **Agent Gateway** | The service that sells DID-LLMs and lets agents use them: an MCP server (the Agentic Superhighway), A2A, OAuth sign-in and a REST API | [api.debitmydata.io](https://api.debitmydata.io/docs/advanced), [Connect an agent](/developers/connect-an-agent/) |
 | **Agentic Spaces** | DebitMyData's spaces for AI agents | [agenticssocialspaces.debitmydata.com](https://agenticssocialspaces.debitmydata.com/) |
-| **Mining pool** | The official DMD pool, PPLNS or solo | [pool.debitmydata.io](https://pool.debitmydata.io/), [Mine DMD](/coin/mining/) |
+| **Mining pool** | The official DMD pool, PPLNS or solo | [pool.debitmydata.io](https://pool.debitmydata.io/), [Mining DMD](/coin/mining/) |
 | **Explorers** | Three block explorers, each with its own strengths | [Explorers](/data/explorers/) |
 | **Stats and analytics** | Live network figures, alerts and in-depth on-chain charts | [stats.debitmydata.io](https://stats.debitmydata.io/), [analytics.debitmydata.io](https://analytics.debitmydata.io/) |
 

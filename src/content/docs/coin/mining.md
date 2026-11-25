@@ -1,5 +1,5 @@
 ---
-title: Mine DMD
+title: Mining DMD
 description: Mine DMD with any SHA-256 miner on the official pool, pool.debitmydata.io. Connection settings, PPLNS or solo, starting difficulty, rented hashrate and the pool's API.
 coin: true
 ---

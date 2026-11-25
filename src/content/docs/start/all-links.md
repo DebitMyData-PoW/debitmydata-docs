@@ -51,7 +51,7 @@ description: Every DebitMyData website, explorer, API, download and community ch
 | DMD coin data: supply, market cap, rich list | `https://stats.debitmydata.io/api/coin.json` | [Coin data API](/api/coin-data/) |
 | Stats | `https://stats.debitmydata.io/api/` | [Stats](/data/stats/#api) |
 | Analytics | `https://analytics.debitmydata.io/api/` | [Analytics](/data/analytics/#api) |
-| Mining pool | `https://pool.debitmydata.io/api/` | [Mine DMD](/coin/mining/#pool-api) |
+| Mining pool | `https://pool.debitmydata.io/api/` | [Mining DMD](/coin/mining/#pool-api) |
 | DebitMyData Core (your own node) | `http://127.0.0.1:18557/` | [RPC reference](/rpc/) |
 
 ## Downloads
