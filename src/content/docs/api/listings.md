@@ -40,7 +40,7 @@ More in [The DMD coin](/coin/overview/).
 | Max supply | None |
 | Everything in one file | `https://stats.debitmydata.io/api/coin.json` |
 | Rich list | [Rich list](/api/rich-list/), or `https://stats.debitmydata.io/api/richlist.json` |
-| Market price | None yet: DMD isn't on an exchange. DebitMyData's [reference price](/data/reference-price/) is not a market price |
+| Market price | None yet: DMD isn't on an exchange. DebitMyData's [reference price](/data/reference-price/) is not a market price, and the market price will replace it once DMD is listed |
 
 The [coin data API](/api/coin-data/) explains each figure.
 

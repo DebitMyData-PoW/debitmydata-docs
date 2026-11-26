@@ -132,8 +132,8 @@ gives the same number from its own node.
 ## Price and market cap
 
 DMD isn't on an exchange yet, so it has no market price. Until it is, `coin.json` gives
-DebitMyData's [reference price](/data/reference-price/): the cost of mining DMD, never below
-$0.001. The market cap is the supply times that price, and `market_cap_from` says
+DebitMyData's [reference price](/data/reference-price/): its minimum rate of $0.001, or the cost
+of mining DMD when that is higher, so it can go up or down but never below $0.001. The market cap is the supply times that price, and `market_cap_from` says
 `reference_price`. Once DMD trades on an exchange, the market price takes over and
 `market_cap_from` says `market_price`.
 

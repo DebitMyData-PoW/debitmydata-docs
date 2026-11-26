@@ -64,7 +64,9 @@ Miners always earn a block reward, so the chain always pays for its security.
 ## Price
 
 DMD is not on an exchange yet, so it has no market price. DebitMyData publishes a
-**reference price** instead, from the cost of mining DMD and never below $0.001: see
+**reference price** instead: its minimum rate of $0.001 per DMD, or the cost of mining DMD when
+that is higher. It can go up or down, but never below $0.001. It is not a market price, and
+once DMD is listed on an exchange, the market price will replace it. See
 [Reference price](/data/reference-price/).
 
 ## Learn more
